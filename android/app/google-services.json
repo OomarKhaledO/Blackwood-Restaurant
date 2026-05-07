@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000216086557",
+    "project_id": "blackwood-restaurant-app",
+    "storage_bucket": "blackwood-restaurant-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000216086557:android:b1bc30f28c9cc338c3def4",
+        "android_client_info": {
+          "package_name": "com.example.blackwood_restaurant_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs4B6r4pOAO2UN2YUItoBFUmNkIbOBP38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
