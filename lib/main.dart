@@ -240,38 +240,252 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
       ],
     );
   }
-  Widget offersPage()
-  {
-    return Column(
-      children: [
-        _buildNavbar(),
-        Container(
-          color: Color(0xFF181818) ,height: 70,
-          child: Row(
-            children: [
-
-              _buildTab(const Text("Home", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33)),), 0),
-
-              _buildTab(const Text("Offers", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33)) ), 1),
-
-              _buildTab(const Text("Profile", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33)) ), 2),
-
-              _buildTab(const Text("About", style: TextStyle(fontFamily: "Alura",fontSize: 20, color: Color(0xFFD5AE33)) ), 3),
-
-            ],
-          ),
-        ),
-        const Center(
-          child: Text(
-            "Offers",
-            style: TextStyle(
-              fontSize: 42,
-              color: Color(0xFFD5AE33),
+  Widget offersPage() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildNavbar(),
+          Container(
+            color: Color(0xFF181818),
+            height: 70,
+            child: Row(
+              children: [
+                _buildTab(const Text("Home", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33))), 0),
+                _buildTab(const Text("Offers", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33))), 1),
+                _buildTab(const Text("Profile", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33))), 2),
+                _buildTab(const Text("About", style: TextStyle(fontFamily: "Alura", fontSize: 20, color: Color(0xFFD5AE33))), 3),
+              ],
             ),
           ),
-        ),
-        _buildFooter()
-      ],
+
+          // Header
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            color: const Color(0xFF181818),
+            child: const Center(
+              child: Text(
+                "Today's Offers",
+                style: TextStyle(
+                  fontFamily: "Alura",
+                  fontSize: 42,
+                  color: Color(0xFFD5AE33),
+                ),
+              ),
+            ),
+          ),
+
+          Container(height: 3, color: const Color(0xFFD5AE33)),
+
+          const SizedBox(height: 25),
+
+          // Discount Cards Section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "  Special Discounts",
+                  style: TextStyle(
+                    fontFamily: "Alura",
+                    fontSize: 30,
+                    color: Color(0xFFD5AE33),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                _buildOfferCard("Dinner for Two", "Get 20% off any two dinner dishes every Monday & Tuesday.", "20% OFF"),
+                const SizedBox(height: 15),
+                _buildOfferCard("Lunch Special", "Enjoy a free dessert with every lunch order above 200 EGP.", "FREE DESSERT"),
+                const SizedBox(height: 15),
+                _buildOfferCard("Weekend Brunch", "30% off on all breakfast items every Friday morning.", "30% OFF"),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 30),
+          Container(height: 3, color: const Color(0xFFD5AE33)),
+
+          // Meal Deals Section
+          Container(
+            height: 70,
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(color: Color(0xFF221919)),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "   Meal Deals",
+                style: TextStyle(
+                  color: Color(0xFFD5AE33),
+                  fontSize: 40,
+                  fontFamily: "Alura",
+                ),
+              ),
+            ),
+          ),
+
+          Container(
+            color: const Color(0xFFEBEBE6),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                _buildMealDealRow("Dinner for 2", "images/dinner-dish-1.png", "2 mains + 1 dessert + drinks\nOnly 350 EGP"),
+                const SizedBox(height: 15),
+                _buildMealDealRow("Family Feast", "images/dinner-dish-2.png", "4 mains + 2 sides + bread\nOnly 700 EGP"),
+                const SizedBox(height: 15),
+                _buildMealDealRow("Lunch Combo", "images/lunch-dish-1.png", "1 main + soup + soft drink\nOnly 180 EGP"),
+              ],
+            ),
+          ),
+
+          Container(height: 20, color: const Color(0xFFD5AE33)),
+          const SizedBox(height: 40),
+
+          // Reserve button
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                pageIndex = 5;
+              });
+            },
+            child: Container(
+              width: 220,
+              height: 55,
+              decoration: BoxDecoration(
+                color: const Color(0xFFD5AE33),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  )
+                ],
+              ),
+              child: const Center(
+                child: Text(
+                  "Reserve a Table",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Alura",
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 40),
+          _buildFooter(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOfferCard(String title, String description, String badge) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: const Color(0xFF221919),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFD5AE33), width: 1.5),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          )
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: "Alura",
+                    fontSize: 24,
+                    color: Color(0xFFD5AE33),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFD5AE33),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              badge,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMealDealRow(String title, String imagePath, String details) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF221919),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFD5AE33), width: 1),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 90,
+            height: 90,
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: Image.asset(imagePath, fit: BoxFit.cover),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontFamily: "Alura",
+                  fontSize: 24,
+                  color: Color(0xFFD5AE33),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                details,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
   Widget aboutPage()
