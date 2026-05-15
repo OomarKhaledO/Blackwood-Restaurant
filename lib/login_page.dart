@@ -49,9 +49,10 @@ class _LoginPageState extends State<LoginPage> {
       if (query.docs.isEmpty) {
         setState(() => _errorMessage = 'Invalid email or password.');
       } else {
+        final userData = query.docs.first.data();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const RestaurantHomePage()),
+          MaterialPageRoute(builder: (_) => RestaurantHomePage(userData: userData)),
         );
       }
     } catch (e) {
