@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'ReservationPage.dart';
 
 final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -121,15 +121,21 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
     super.dispose();
   }
 
-  /// Signs the user out and returns to LoginPage via AuthGate
   Future<void> _signOut() async {
+
+    await FirebaseAuth.instance.signOut();
+
+    if (!mounted) return;
+
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const LoginPage()),
+      MaterialPageRoute(
+        builder: (_) => const LoginPage(),
+      ),
           (route) => false,
     );
-  }
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,7 +230,18 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
     final String email = _userData?['email'] ?? user?.email ?? '';
     final String phone = _userData?['phone'] ?? _userData?['phoneNumber'] ?? '—';
     final String city = _userData?['city'] ?? _userData?['location'] ?? '—';
-    final String memberSince = _userData?['memberSince'] ?? _userData?['createdAt'] ?? '—';
+    String memberSince = '—';
+
+    if (_userData?['createdAt'] != null) {
+
+      final Timestamp timestamp = _userData!['createdAt'];
+
+      final DateTime date = timestamp.toDate();
+
+      memberSince =
+      '${date.day}/${date.month}/${date.year}';
+
+    }
     final int reservations = (_userData?['reservations'] as num?)?.toInt() ?? 0;
     final int offersUsed = (_userData?['offersUsed'] as num?)?.toInt() ?? 0;
     final int favourites = (_userData?['favourites'] as num?)?.toInt() ?? 0;
@@ -1035,11 +1052,34 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
   }
 
   Widget pages(int pageindex) {
-    if (pageindex == 0) return homePage();
-    else if (pageindex == 1) return offersPage();
-    else if (pageindex == 2) return profilePage();
-    else if (pageindex == 3) return aboutPage();
-    else return const Center(child: Text("Invalid page", style: TextStyle(fontSize: 42)));
+    if (pageindex == 0) {
+      return homePage();
+    }
+    else if (pageindex == 1) {
+      return offersPage();
+    }
+    else if (pageindex == 2) {
+      return profilePage();
+    }
+    else if (pageindex == 3) {
+      return aboutPage();
+    }
+    else if (pageindex == 5) {
+      return ReservationPage(
+        onBack: () {
+          setState(() {
+            pageIndex = 0;
+          });
+        },
+      );
+    }
+
+    return const Center(
+      child: Text(
+        "Invalid page",
+        style: TextStyle(fontSize: 42),
+      ),
+    );
   }
 
   Widget _buildNavbar() {
