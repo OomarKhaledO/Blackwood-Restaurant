@@ -32,7 +32,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -42,46 +42,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCoxqTfYDyuceejV66fQGckzOXI90KdhOE',
-    appId: '1:1000216086557:web:e1812c3adc06b048c3def4',
-    messagingSenderId: '1000216086557',
-    projectId: 'blackwood-restaurant-app',
-    authDomain: 'blackwood-restaurant-app.firebaseapp.com',
-    storageBucket: 'blackwood-restaurant-app.firebasestorage.app',
+    apiKey: 'AIzaSyChzVhyHMUK_HGlYrwqMd078BNIqc-TWxk',
+    appId: '1:252367605370:web:51dad44020fce7a18675c3',
+    messagingSenderId: '252367605370',
+    projectId: 'blackwood-restaurant',
+    authDomain: 'blackwood-restaurant.firebaseapp.com',
+    storageBucket: 'blackwood-restaurant.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBs4B6r4pOAO2UN2YUItoBFUmNkIbOBP38',
-    appId: '1:1000216086557:android:b1bc30f28c9cc338c3def4',
-    messagingSenderId: '1000216086557',
-    projectId: 'blackwood-restaurant-app',
-    storageBucket: 'blackwood-restaurant-app.firebasestorage.app',
+    apiKey: 'AIzaSyChzVhyHMUK_HGlYrwqMd078BNIqc-TWxk',
+    appId: '1:252367605370:android:51dad44020fce7a18675c3',
+    messagingSenderId: '252367605370',
+    projectId: 'blackwood-restaurant',
+    storageBucket: 'blackwood-restaurant.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAiwXeDGH-p7rCkV-o2g9tM4xjNTt7zw24',
-    appId: '1:1000216086557:ios:bf5e8d903e6b625dc3def4',
-    messagingSenderId: '1000216086557',
-    projectId: 'blackwood-restaurant-app',
-    storageBucket: 'blackwood-restaurant-app.firebasestorage.app',
+    apiKey: 'AIzaSyChzVhyHMUK_HGlYrwqMd078BNIqc-TWxk',
+    appId: '1:252367605370:ios:51dad44020fce7a18675c3',
+    messagingSenderId: '252367605370',
+    projectId: 'blackwood-restaurant',
+    storageBucket: 'blackwood-restaurant.firebasestorage.app',
     iosBundleId: 'com.example.blackwoodRestaurantApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAiwXeDGH-p7rCkV-o2g9tM4xjNTt7zw24',
-    appId: '1:1000216086557:ios:bf5e8d903e6b625dc3def4',
-    messagingSenderId: '1000216086557',
-    projectId: 'blackwood-restaurant-app',
-    storageBucket: 'blackwood-restaurant-app.firebasestorage.app',
+    apiKey: 'AIzaSyChzVhyHMUK_HGlYrwqMd078BNIqc-TWxk',
+    appId: '1:252367605370:ios:51dad44020fce7a18675c3',
+    messagingSenderId: '252367605370',
+    projectId: 'blackwood-restaurant',
+    storageBucket: 'blackwood-restaurant.firebasestorage.app',
     iosBundleId: 'com.example.blackwoodRestaurantApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCoxqTfYDyuceejV66fQGckzOXI90KdhOE',
-    appId: '1:1000216086557:web:ffd712f05d379300c3def4',
-    messagingSenderId: '1000216086557',
-    projectId: 'blackwood-restaurant-app',
-    authDomain: 'blackwood-restaurant-app.firebaseapp.com',
-    storageBucket: 'blackwood-restaurant-app.firebasestorage.app',
+    apiKey: 'AIzaSyChzVhyHMUK_HGlYrwqMd078BNIqc-TWxk',
+    appId: '1:252367605370:web:51dad44020fce7a18675c3',
+    messagingSenderId: '252367605370',
+    projectId: 'blackwood-restaurant',
+    authDomain: 'blackwood-restaurant.firebaseapp.com',
+    storageBucket: 'blackwood-restaurant.firebasestorage.app',
   );
 }
