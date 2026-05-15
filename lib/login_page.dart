@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main.dart';
-
+import 'registeration_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -24,11 +25,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
+
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      setState(() => _errorMessage = 'Please enter your email and password.');
+
+      setState(() {
+        _errorMessage = 'Please enter your email and password.';
+      });
+
       return;
     }
 
@@ -38,28 +44,59 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      final query = await FirebaseFirestore.instance
-          .collection('users')
-          .where('email', isEqualTo: email)
-          .where('password', isEqualTo: password)
-          .get();
+
+      // REAL Firebase Authentication login
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Optional: get user data from Firestore
+      final userData = {
+        'email': FirebaseAuth.instance.currentUser!.email,
+      };
+      
 
       if (!mounted) return;
 
-      if (query.docs.isEmpty) {
-        setState(() => _errorMessage = 'Invalid email or password.');
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const RestaurantHomePage()),
-        );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => RestaurantHomePage(userData: userData),
+        ),
+      );
+
+    } on FirebaseAuthException catch (e) {
+
+      String message = 'Login failed';
+
+      if (e.code == 'user-not-found') {
+        message = 'No user found.';
       }
+      else if (e.code == 'wrong-password') {
+        message = 'Wrong password.';
+      }
+      else if (e.code == 'invalid-email') {
+        message = 'Invalid email.';
+      }
+
+      setState(() {
+        _errorMessage = message;
+      });
+
     } catch (e) {
-      if (mounted) {
-        setState(() => _errorMessage = 'Login failed. Please try again.');
-      }
+
+      setState(() {
+        _errorMessage = e.toString();
+      });
+
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -72,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFF181818),
       body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+        child: SafeArea(
           child: Stack(
             children: [
               // Decorative gold top bar
@@ -83,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                 right: 0,
                 child: Container(height: 6, color: const Color(0xFFD5AE33)),
               ),
-
+          
               // Main content
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -91,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 60),
-
+          
                     // Restaurant name header
                     const Text(
                       'Blackwood',
@@ -111,14 +147,14 @@ class _LoginPageState extends State<LoginPage> {
                         letterSpacing: 4,
                       ),
                     ),
-
+          
                     const SizedBox(height: 10),
-
+          
                     // Gold divider
                     Container(width: 100, height: 2, color: const Color(0xFFD5AE33)),
-
+          
                     const SizedBox(height: 50),
-
+          
                     // Welcome text
                     const Text(
                       'Welcome Back',
@@ -137,9 +173,9 @@ class _LoginPageState extends State<LoginPage> {
                         letterSpacing: 1,
                       ),
                     ),
-
+          
                     const SizedBox(height: 40),
-
+          
                     // Email field
                     _buildInputField(
                       controller: _emailController,
@@ -147,9 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                       icon: Icons.email_outlined,
                       keyboardType: TextInputType.emailAddress,
                     ),
-
+          
                     const SizedBox(height: 18),
-
+          
                     // Password field
                     _buildInputField(
                       controller: _passwordController,
@@ -165,9 +201,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                       ),
                     ),
-
+          
                     const SizedBox(height: 10),
-
+          
                     // Forgot password
                     Align(
                       alignment: Alignment.centerRight,
@@ -184,9 +220,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-
+          
                     const SizedBox(height: 18),
-
+          
                     // Error message
                     if (_errorMessage != null)
                       Container(
@@ -203,9 +239,9 @@ class _LoginPageState extends State<LoginPage> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-
+          
                     if (_errorMessage != null) const SizedBox(height: 18),
-
+          
                     // Login button
                     GestureDetector(
                       onTap: _isLoading ? null : _login,
@@ -245,12 +281,52 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 22),
 
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        const Text(
+                          "Don't have an account?",
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 14,
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () {
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterPage(),
+                              ),
+                            );
+
+                          },
+
+                          child: const Padding(
+                            padding: EdgeInsets.only(left: 6),
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                color: Color(0xFFD5AE33),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
                     const SizedBox(height: 30),
                   ],
                 ),
               ),
-
+          
               // Decorative gold bottom bar
               Positioned(
                 bottom: 0,
